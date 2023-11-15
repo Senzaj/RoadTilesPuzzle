@@ -9,6 +9,7 @@ namespace ProjectAssets.Level.Behavior
 {
     public class LevelsController : MonoBehaviour
     {
+        [SerializeField] private Camera _mainCam;
         [SerializeField] private CarMover[] _prefabs;
         [SerializeField] private LevelData[] _startLevelsPrefabs;
         [SerializeField] private LevelData[] _mainLevelsPrefabs;
@@ -34,7 +35,7 @@ namespace ProjectAssets.Level.Behavior
             _levelNumber = _saves.GetCurrentLevel();
             int levelIndex = _levelNumber - 1;
 
-            _car = Instantiate(_prefabs[Random.Range(0, _prefabs.Length)]);
+            _car = GetCar();
 
             if (levelIndex < _startLevelsPrefabs.Length)
                 LoadStartLevel();
@@ -59,13 +60,17 @@ namespace ProjectAssets.Level.Behavior
             int levelIndex = _levelNumber - 1;
             _currentLevel = Instantiate(_startLevelsPrefabs[levelIndex], transform.position, Quaternion.identity);
             _currentLevel.SetData(_inputController, _car);
+            _mainCam.orthographicSize = _currentLevel.CamSize;
             _currentLevel.Complete += OnComplete;
 
             switch (_levelNumber)
             {
                 case 1:
                     if (_saves.GetTutorialStatus() == false)
+                    {
+                        _inputController.CanPlay = false;
                         _interface.OpenTutorial();
+                    }
                     else
                     {
                         _interface.OpenGameList();
@@ -87,6 +92,7 @@ namespace ProjectAssets.Level.Behavior
                 int levelIndex = _saves.GetLastLevel();
                 _currentLevel = Instantiate(_mainLevelsPrefabs[levelIndex], transform.position, Quaternion.identity);
                 _currentLevel.SetData(_inputController, _car);
+                _mainCam.orthographicSize = _currentLevel.CamSize;
                 _interface.OpenGameList();
                 _stopwatch.Play();
                 _currentLevel.Complete += OnComplete;
@@ -97,6 +103,7 @@ namespace ProjectAssets.Level.Behavior
                 _saves.SetLastLevel(levelIndex);
                 _currentLevel = Instantiate(_mainLevelsPrefabs[levelIndex], transform.position, Quaternion.identity);
                 _currentLevel.SetData(_inputController, _car);
+                _mainCam.orthographicSize = _currentLevel.CamSize;
                 _interface.OpenGameList();
                 _stopwatch.Play();
                 _currentLevel.Complete += OnComplete;
@@ -137,9 +144,15 @@ namespace ProjectAssets.Level.Behavior
             _inputController.CanPlay = false;
             _stopwatch.Stop();
         }
-        
+
+        private CarMover GetCar()
+        {
+            return Instantiate(_prefabs[Random.Range(0, _prefabs.Length)]);
+        }
+
         private void Tutorial1Complete()
         {
+            _inputController.CanPlay = true;
             _saves.SetTutorialStatus();
             _interface.OpenGameList();
             _stopwatch.Play();

@@ -9,6 +9,8 @@ namespace ProjectAssets.Level.Behavior
     {
         [SerializeField] private Platform[] _platforms;
 
+        public float CamSize;
+        
         public event Action Complete;
         
         private CarMover _car;

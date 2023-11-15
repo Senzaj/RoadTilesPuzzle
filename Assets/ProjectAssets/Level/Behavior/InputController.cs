@@ -11,6 +11,7 @@ namespace ProjectAssets.Level.Behavior
         [SerializeField] private Button _modeSwitcher;
         [SerializeField] private TMP_Text _carModeT;
         [SerializeField] private TMP_Text _roadsModeT;
+        [SerializeField] private ParticleSystem _hitFx;
         
         private Platform[] _platforms;
         private CarMover _car;
@@ -65,6 +66,8 @@ namespace ProjectAssets.Level.Behavior
         {
             if (CanPlay)
             {
+                Instantiate(_hitFx, platform.transform.position, Quaternion.identity);
+                
                 if (IsCarMode)
                 {
                     Platform currentPlatform = _car.CurrentPlatform;

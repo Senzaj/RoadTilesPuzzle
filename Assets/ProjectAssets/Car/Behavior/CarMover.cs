@@ -9,6 +9,8 @@ namespace ProjectAssets.Car.Behavior
     public class CarMover : MonoBehaviour
     {
         [SerializeField] private Animator _animator;
+        [SerializeField] private ParticleSystem _jump0Fx;
+        [SerializeField] private ParticleSystem _jump1Fx;
         
         public Platform CurrentPlatform;
 
@@ -27,6 +29,7 @@ namespace ProjectAssets.Car.Behavior
         {
             CanMove = false;
             _animator.Play("Jump");
+            Instantiate(_jump0Fx, transform.position, Quaternion.Euler(-45,0,0));
             transform.DOMove( newPlatform.Target.position, 0.5f);
             CurrentPlatform = newPlatform;
 
@@ -43,6 +46,7 @@ namespace ProjectAssets.Car.Behavior
         private void OnJumped()
         {
             _animator.Play("Idle");
+            Instantiate(_jump1Fx, transform.position, Quaternion.Euler(-45,0,0));
             
             if (CurrentPlatform.IsFinish)
                 Finished?.Invoke();

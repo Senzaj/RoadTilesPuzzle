@@ -17,7 +17,7 @@ namespace ProjectAssets.Platforms.Behavior
         
         public override void AnimRotate()
         {
-        
+            Instantiate(_tapFx, _tapPos.position, Quaternion.identity);
         }
     }
 }
