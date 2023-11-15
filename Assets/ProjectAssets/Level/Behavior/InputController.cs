@@ -1,5 +1,6 @@
 using ProjectAssets.Car.Behavior;
 using ProjectAssets.Platforms.Behavior;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,8 @@ namespace ProjectAssets.Level.Behavior
     public class InputController : MonoBehaviour
     {
         [SerializeField] private Button _modeSwitcher;
+        [SerializeField] private TMP_Text _carModeT;
+        [SerializeField] private TMP_Text _roadsModeT;
         
         private Platform[] _platforms;
         private CarMover _car;
@@ -17,6 +20,8 @@ namespace ProjectAssets.Level.Behavior
 
         public void SetData(Platform[] platforms, CarMover carMover)
         {
+            SetRoadsMode();
+            
             _car = carMover;
             _platforms = platforms;
             
@@ -36,9 +41,26 @@ namespace ProjectAssets.Level.Behavior
 
         private void SwitchMode()
         {
-            IsCarMode = !IsCarMode;
+            if (IsCarMode)
+                SetRoadsMode();
+            else
+                SetCarMode();
         }
 
+        private void SetCarMode()
+        {
+            IsCarMode = true;
+            _roadsModeT.enabled = false;
+            _carModeT.enabled = true;
+        }
+
+        private void SetRoadsMode()
+        {
+            IsCarMode = false;
+            _carModeT.enabled = false;
+            _roadsModeT.enabled = true;
+        }
+        
         public void OnPlatformClick(Platform platform)
         {
             if (CanPlay)
