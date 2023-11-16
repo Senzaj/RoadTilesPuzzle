@@ -29,8 +29,6 @@ namespace ProjectAssets.Level.Behavior
         
         private void OnEnable()
         {
-            //PlayerPrefs.DeleteAll();
-            
             _isLevelComplete = false;
             _levelNumber = _saves.GetCurrentLevel();
             int levelIndex = _levelNumber - 1;
