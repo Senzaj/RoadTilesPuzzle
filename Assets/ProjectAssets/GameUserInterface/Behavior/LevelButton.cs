@@ -12,6 +12,8 @@ namespace ProjectAssets.GameUserInterface.Behavior
         [SerializeField] private TMP_Text _notCompleteT;
         [SerializeField] private Color _enabledColor;
         [SerializeField] private Color _disabledColor;
+        [SerializeField] private Sprite _completeS;
+        [SerializeField] private Sprite _notCompleteS;
         
         public Button ButtonLevel;
         
@@ -24,12 +26,14 @@ namespace ProjectAssets.GameUserInterface.Behavior
         {
             _completeT.enabled = true;
             _notCompleteT.enabled = false;
+            _image.sprite = _completeS;
         }
 
         public void NotCompleted()
         {
             _completeT.enabled = false;
             _notCompleteT.enabled = true;
+            _image.sprite = _notCompleteS;
         }
 
         public void Enable()

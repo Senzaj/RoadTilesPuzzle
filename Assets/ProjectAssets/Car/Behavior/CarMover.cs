@@ -30,6 +30,9 @@ namespace ProjectAssets.Car.Behavior
             CanMove = false;
             _animator.Play("Jump");
             Instantiate(_jump0Fx, transform.position, Quaternion.Euler(-45,0,0));
+            
+            transform.localScale = newPlatform.transform.position.x > transform.position.x ? new Vector3(-1, 1, 1) : new Vector3(1, 1, 1);
+            
             transform.DOMove( newPlatform.Target.position, 0.5f);
             CurrentPlatform = newPlatform;
 
